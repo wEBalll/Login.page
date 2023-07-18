@@ -13,6 +13,7 @@ export const About = () => {
       .get(src)
       .then(data => {
         setArticles(data.data.response.results);
+        // console.log(data)
       })
     }, []);
     
@@ -36,3 +37,13 @@ const Link = styled.a`
     text-decoration: none;
     color: #464655;
 `;
+
+let RS = {
+    user: {
+        role: "",
+        token: {
+            refresh: "",
+            access: "",
+        }
+    }
+};

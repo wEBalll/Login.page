@@ -1,27 +1,31 @@
 import styled from "styled-components";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { usePersistentStore } from "../store";
 
 export const Login = () => {
+  const RootStore = usePersistentStore();
   const [login, setLogin] = useState(""); //const - постоянный, login и setLogin - изменяеммые, useState - не изменяемые
   const [password, setPassword] = useState(""); //const - постоянный, login и setLogin - изменяеммые, useState - не изменяемые
-  const navigate = useNavigate()
-
-  // const inputClean = (e) => {
-  //   e.preventDefault();
-  //   setLogin("");
-  //   setPassword("");
-  // };
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [incorrect, setIncorrect] = useState(false);
 
   function onSubmitForm(e) {
     e.preventDefault();  // отменяет перезагрузку страницы 
 
-    if (login == "admin" && password == "admin") {
+    if (login == "123" && password == "123") {
       navigate("/about")
+      RootStore.users.User();
+      console.log(RootStore.users)
     }
-
-    setLogin("");
-    setPassword("");
+    else{
+      setIncorrect(true);
+      setLogin(e.target.value);
+      setPassword(e.target.value);
+    }
+    // setLogin("");
+    // setPassword("");
   }
 
   return (
@@ -52,6 +56,9 @@ export const Login = () => {
         <ButtonBlock>
           <Button onClick={onSubmitForm}>LOGIN</Button>
         </ButtonBlock>
+        {incorrect && <Incorrect>
+          Incorrect login or password
+        </Incorrect>}
       </Form>
     </LoginContainer>
   );
@@ -120,3 +127,10 @@ const Button = styled.button`
 `;
 const InputBlock = styled.div``;
 const ButtonBlock = styled.div``;
+const Incorrect = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: red;
+`;

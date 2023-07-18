@@ -4,9 +4,9 @@ import { Login } from './components/Login';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { Routes, Route, Link } from 'react-router-dom';
-
 import { Home } from './pages/Home';
 import { About } from './pages/About';
+import { RequireStore } from './hoc/RequireStore';
 
 function App() {
 
@@ -16,7 +16,11 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/home" element={<Home />} />
-        <Route path="/about" element={<About />} />
+        <Route path="/about" element={
+          <RequireStore>
+            <About />
+          </RequireStore>
+        } />
       </Routes>
       <Footer/>
     </Wrapper>
@@ -37,4 +41,3 @@ const Wrapper = styled.div `
   justify-content: space-between;
   gap: 20px;
 `;
-
